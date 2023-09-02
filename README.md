@@ -1,6 +1,6 @@
 # REPOSITÓRIO_APOSENTADORIA
  PRIMEIRO REPOSITORIO
-Este código tende a facilitar muitas coisas em relação a paosentadorias , a parte dos calculos,
+Este código tende a facilitar muitas coisas em relação a aposentadorias , a parte dos calculos,
 para saber se o trabalhador tem direito ou ainda falta algum tempo, isso permetirá q o trabalhador realize
 os calculos sabendo incluse a media salarial dele, caso o resultado seja positivo ele devera procurar 
 um adv ou contador para dar entrada no seu beneficio. Resolvi fazer este codigo porque estou procurando adv para realizar os 
