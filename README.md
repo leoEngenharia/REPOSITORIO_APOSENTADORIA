@@ -1,4 +1,4 @@
-# REPOSITÓRIO_APOSENTADORIA
+# CÁLCULO_PARA_APOSENTADORIA
  PRIMEIRO REPOSITORIO
 Este código tende a facilitar muitas coisas em relação a aposentadorias , a parte dos calculos,
 para saber se o trabalhador tem direito ou ainda falta algum tempo, isso permetirá q o trabalhador realize
