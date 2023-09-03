@@ -1,12 +1,12 @@
 ''' NA VERSÃO 3 ESTOU USANDO UM LOOP PERGUNTANDO SE O USUARIO DESEJA CADASTRAR OUTRA EMPRESA,
-OU DESEJA ENCERRAR O PROGRAMA , CALCULA A MEDIA DOS SALARIOS, e salva o arquivo em csv para um preenchimento posterior'''
+OU DESEJA ENCERRAR O PROGRAMA , CALCULA A MEDIA DOS SALARIOS, e salva o arquivo
+ em csv para um preenchimento posterior dando a possibilidade de continuar o q começou ou fazer um novo'''
 import csv
 import os
 from datetime import datetime
 
-# Defina o ano de referência para a conversão da moeda aqui
 ano_referencia = 1967  # Você pode alterar este valor conforme necessário
-
+# Defina a classe Empresa aqui
 class Empresa:
     def __init__(self, nome, data_admissao, data_demissao, salario, insalubridade):
         self.nome = nome
@@ -15,8 +15,25 @@ class Empresa:
         self.salario = salario
         self.insalubridade = insalubridade
 
-# Lista para armazenar as empresas cadastradas
-empresas = []
+# Verifique se o arquivo CSV existe
+if os.path.exists('dados_empresas.csv'):
+    resposta = input("Deseja continuar com o relatório existente? (S/N): ").lower()
+    if resposta == 's':
+        # Carrega os dados do CSV
+        empresas = []
+        with open('dados_empresas.csv', mode='r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                nome, data_admissao, data_demissao, salario, insalubridade = row
+                empresas.append(Empresa(nome, data_admissao, data_demissao, float(salario), insalubridade.upper() == 'S'))
+    else:
+        # Se o usuário não quiser continuar com o relatório existente, cria uma lista vazia
+        empresas = []
+else:
+    # Se o arquivo CSV não existir, cria uma lista vazia
+    empresas = []
+
+# Resto do seu código aqui...
 
 
 # Defina o caminho completo para o arquivo
