@@ -1,5 +1,7 @@
-''' NA VERSÃO 3 ESTAMOS USANDO UM LOOP PERGUNTANDO SE O USUARIO DESEJA CADASTRAR OUTRA EMPRESA,
-OU DESEJA ENCERRAR O PROGRAMA , CALCULA A MEDIA DOS SALARIOS'''
+''' NA VERSÃO 3 ESTOU USANDO UM LOOP PERGUNTANDO SE O USUARIO DESEJA CADASTRAR OUTRA EMPRESA,
+OU DESEJA ENCERRAR O PROGRAMA , CALCULA A MEDIA DOS SALARIOS, e salva o arquivo em csv para um preenchimento posterior'''
+import csv
+import os
 from datetime import datetime
 
 # Defina o ano de referência para a conversão da moeda aqui
@@ -15,6 +17,16 @@ class Empresa:
 
 # Lista para armazenar as empresas cadastradas
 empresas = []
+
+
+# Defina o caminho completo para o arquivo
+file_path = r'C:\Users\leoat\OneDrive\Documentos\REPOSITORIOS_CALCULOS_APOSENTADORIA\REPOSITORIO_APOSENTADORIA\dados_empresas.csv'
+
+# Código para salvar os dados das empresas em CSV
+with open(file_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    for empresa in empresas:
+        writer.writerow([empresa.nome, empresa.data_admissao, empresa.data_demissao, empresa.salario, empresa.insalubridade])
 
 while True:
     def cadastrar_empresa():
@@ -48,7 +60,7 @@ if contador_salarios > 0:
 else:
     media_salarios = 0
 
-# Função para calcular o tempo de emprego em anos, meses e dias
+# Realize os cálculos para tempo de emprego e conversão de moeda aqui
 def calcular_tempo_emprego(data_admissao, data_demissao):
     if data_admissao == "" or data_demissao == "":
         return 0, 0, 0  # Retorna zero anos, zero meses e zero dias se as datas não estiverem disponíveis
@@ -68,7 +80,7 @@ def calcular_tempo_com_insalubridade(tempo_emprego_total):
 # Função para converter moeda antiga para reais
 def converter_moeda_para_real(valor, data_demissao):
     if data_demissao == "" or datetime.strptime(data_demissao, "%d/%m/%Y") < datetime(ano_referencia, 1, 1):
-        return valor  # Se a data de demissão não estiver disponível ou for anterior ao ano de referência, não faz a conversão
+        return valor
     data_demissao_obj = datetime.strptime(data_demissao, "%d/%m/%Y")
     if data_demissao_obj >= datetime(1967, 2, 13) and data_demissao_obj <= datetime(1970, 5, 14):
         return valor / (1000 ** 5 * 2.75)
@@ -84,7 +96,7 @@ def converter_moeda_para_real(valor, data_demissao):
         return valor / (1000 * 2.75)
     elif data_demissao_obj >= datetime(1994, 7, 1):
         return valor * 1
-    return valor  # Se a data não se encaixar em nenhuma faixa ou não for especificada, retorna o valor original
+    return valor
 
 # Exemplo de cálculos
 nova_empresa = empresas[-1]  # Pega a última empresa cadastrada
@@ -103,6 +115,15 @@ if nova_empresa.insalubridade:
 # Converter o valor do salário para reais com 2 casas decimais
 valor_salario_em_reais = converter_moeda_para_real(nova_empresa.salario, nova_empresa.data_demissao)
 
-print(f"Valor do salário em reais: R$ {valor_salario_em_reais:.2f}")
+#print(f"Valor do salário em reais: R$ {valor_salario_em_reais:.2f}")
 print(f"Soma de todos os salários: R$ {soma_salarios:.2f}")
 print(f"Média dos salários: R$ {media_salarios:.2f}")
+
+# Salvar os dados no arquivo CSV na área de trabalho
+with open(file_path, mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["Nome", "Data Admissão", "Data Demissão", "Salário", "Insalubridade"])
+    for empresa in empresas:
+        writer.writerow([empresa.nome, empresa.data_admissao, empresa.data_demissao, empresa.salario, empresa.insalubridade])
+
+print(f'Dados salvos em {file_path}')
